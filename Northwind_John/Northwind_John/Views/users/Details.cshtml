@@ -1,0 +1,51 @@
+﻿@model Northwind_John.Models.user
+
+@{
+    ViewBag.Title = "詳細資料";
+}
+@section style{
+    <style>
+        @@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+        * {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 18px;
+        }
+    </style>
+}
+<h2>詳細資料</h2>
+
+<div>
+    <h4>user</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.update_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.update_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dept.dept_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dept.dept_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.user_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
