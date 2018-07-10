@@ -17,44 +17,52 @@
 
 <p>
     @Html.ActionLink("新增員工", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.user_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.update_date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dept.dept_name)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.user_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.update_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dept.dept_name)
-            </td>
-            <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.user_id }) |
-                @Html.ActionLink("詳細資料", "Details", new { id = item.user_id }) |
-                @Html.ActionLink("刪除", "Delete", new { id = item.user_id })
-            </td>
-        </tr>
-    }
-</table>
-
-@if (TempData["message"] != null) {
-    <script type="text/javascript">
-        var message = @Html.Raw(Json.Encode(TempData["message"]));
-        alert(message);
-    </script>
+    @Html.ActionLink("新增部門", "Create", "depts")
+    @using (Html.BeginForm("Index", "users", FormMethod.Get)) {
+    <p>
+        部門: @Html.DropDownList("Genre", "All")
+        員工: @Html.TextBox("searchString")
+        <input type="submit" value="查詢" />
+    </p>
 }
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.user_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.update_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dept.dept_name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.user_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.update_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dept.dept_name)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new { id = item.user_id }) |
+                    @Html.ActionLink("詳細資料", "Details", new { id = item.user_id }) |
+                    @Html.ActionLink("刪除", "Delete", new { id = item.user_id })
+                </td>
+            </tr>
+        }
+    </table>
+
+    @if (TempData["message"] != null) {
+        <script type="text/javascript">
+        var message = @Html.Raw(Json.Encode(TempData["message"]));
+            alert(message);
+        </script>
+    }

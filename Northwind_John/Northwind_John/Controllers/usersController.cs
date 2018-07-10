@@ -15,10 +15,32 @@ namespace Northwind_John.Controllers
       private ModelContainer db = new ModelContainer();
 
       // GET: users
-      public ActionResult Index()
+      public ActionResult Index(string Genre, string searchString)
       {
-         var userSet = db.userSet.Include(u => u.dept);
-         return View(userSet.ToList());
+         //https://dotblogs.com.tw/berrynote/2016/08/26/000310
+         //Index方法新增了一個叫做Genre的參數。在前幾行的程式碼中，先建立了一個List與查詢所有部門(Genre)的LINQ。 
+         var GenreLst = new List<string>();
+         
+         var GenreQry = from d in db.userSet
+                        orderby d.dept.dept_name
+                        select d.dept.dept_name;
+         //AddRange方法將剛剛GenreQry查詢出來的資料( Distinct()方法避免重複的部門 )加入GenreLst，再將GenreLst儲存到ViewBag.Genre。
+         //而下面的程式碼中，會先檢查Genre是否為空或是Null。若有值則加入Where條件，依照Genre篩選員工。
+         GenreLst.AddRange(GenreQry.Distinct());
+         ViewBag.Genre = new SelectList(GenreLst);
+
+         var users = from m in db.userSet
+                      select m;
+
+         if (!String.IsNullOrEmpty(searchString)) {
+            users = users.Where(s => s.user_name.Contains(searchString));
+         }
+
+         if (!string.IsNullOrEmpty(Genre)) {
+            users = users.Where(x => x.dept.dept_name == Genre);
+         }
+         //var userSet = db.userSet.Include(u => u.dept);
+         return View(users);
       }
 
       // GET: users/Details/5
